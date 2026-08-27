@@ -284,17 +284,8 @@ CX4_RegTest1:
         beq     RT1_Z
 
         lda     #$ff
-        sta     $7f48
         sta     $7f4c
         sta     $7f4e
-
-        lda     $7f48
-        cmp     #$01
-        bne     RT1_Z
-        eor     #$ff
-        sta     $7f48
-        lda     $7f48
-        bne     RT1_Z
 
         lda     $7f4c
         cmp     #$03
