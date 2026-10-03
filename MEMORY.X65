@@ -33,7 +33,7 @@ SLOT 0 $8000
 .DB     $00             ; SRAM Size
 .DB     $00             ; Country
 .DB     $33             ; License Code
-.DB     $00             ; Version
+.DB     $01             ; Version
 .DW     $FFFF           ; Checksum Complement
 .DW     $0000          	; Checksum
 

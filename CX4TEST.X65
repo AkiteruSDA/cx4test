@@ -283,6 +283,32 @@ CX4_RegTest1:
         lda     REG1
         beq     RT1_Z
 
+        stz     $7f49
+        lda     #$80
+        sta     $7f4a
+        stz     $7f4b
+        stz     $7f4d
+        stz     $7f4e
+
+        ldx     #$000c
+RT1_Copy:
+        lda.w   WramPreload, x
+        sta     $7e0800, x
+        dex
+        bpl     RT1_Copy
+
+        ldx     #$ffff
+        lda     #$ff
+        jsl     $7e0800
+
+        lda     $7f48
+        cmp     #$01
+        bne     RT1_Z
+        eor     #$ff
+        jsl     $7e0800
+        lda     $7f48
+        bne     RT1_Z
+
         lda     #$ff
         sta     $7f4c
         sta     $7f4e
@@ -305,6 +331,13 @@ CX4_RegTest1:
 
         ldx     #$0000
 RT1_Z:  rts
+
+WramPreload:
+.DB     $8F, $48, $7F, $00      ; sta $007f48
+.DB     $AF, $5E, $7F, $00      ; - lda $007f5e
+.DB     $29, $40                ;   and #$40
+.DB     $D0, $F8                ;   bne -
+.DB     $6B                     ; rtl
 
 ;-------------------------------------------------------------------------------
 
@@ -515,7 +548,7 @@ Palette:
 Text1:
 .db     $80, "VERSION 1.", $00
 .db     $80, "BY ", $84, "OVERLOAD", $00
-.db     $80, "2010-03-03",$00
+.db     $80, "2026-10-02",$00
 
 Text_Ok:
 .db     $84, "PASS", $00
